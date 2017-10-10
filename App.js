@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, NavigatorIOS, Text, View, SectionList, StyleSheet } from 'react-native';
+import { Button, NavigatorIOS, Text, View, SectionList, StyleSheet, Header } from 'react-native';
 
 export default class App extends React.Component {
   render() {
@@ -10,12 +10,11 @@ export default class App extends React.Component {
         titleTextColor='#fff'
         tintColor='#fff'
         initialRoute={{
-          component: MyScene,
+          component: SectionListBasics,
           title: 'My Initial Scene',
           passProps: {index: 1},
         }}
-        style={styles.navigatorStyle}
-      />
+        style={styles.navigatorStyle}/>
     )
   }
 }
@@ -25,12 +24,14 @@ export class SectionListBasics extends React.Component {
     return (
       <View style={styles.container}>
         <SectionList
+          renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+          ItemSeparatorComponent={ () => <View style={styles.itemSeparatorComponent} /> }
+          keyExtractor={(item, index) => index}
           sections={[
             {title: 'D', data: ['Devin']},
             {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
           ]}
-          renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
         />
       </View>
     );
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 2,
+    height: 47,
     fontSize: 14,
     fontWeight: 'bold',
     backgroundColor: 'rgba(247,247,247,1.0)',
@@ -63,6 +65,9 @@ const styles = StyleSheet.create({
   navigatorStyle: {
     flex: 1,
   },
+  itemSeparatorComponent: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  }
 })
 
 class MyScene extends React.Component {
